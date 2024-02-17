@@ -6,6 +6,7 @@ clear all
 close all
 clc
 
+addpath(genpath('data'), genpath('filters'), genpath('utility'))
 
 %% load RT from Arni
 load('two-stage-RT-values.mat')

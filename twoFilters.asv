@@ -107,7 +107,6 @@ if contains(method, 'notch') || contains(method, 'Notch')
 
     GH =10^((Gdb_d(end) - median(Gdb_d))/20); % shelf filter gain
     [Hnum, Hden] = high_shelf(GH, fs);
-    SOS = tf2sos(Hnum, Hden);
     Hshelf = freqz(Hnum, Hden, w, fs);
    
 end
@@ -122,7 +121,7 @@ if contains(method, 'shelf') || contains(method, 'Shelf')
 
     [Hnum, Hden] = low_shelf(wc,fs, GL, GH);
     % save second order section 
-    SOS = tf2sos(Hnum, Hden);
+    SOS = [Hnum(1) Hnum(2) 0 Hden(1) Hden(2) 0];
     % evaluate filter's frequency response
     Hshelf = freqz(Hnum, Hden, w, fs);
     
