@@ -38,7 +38,7 @@ addRequired(p, 'wc', @(x) isnumeric(x));
 % if strcmp("f", varargin{1}) % check if a variable f exists 
 
 nBand  = length(RT);        % number of octave bands
-
+RT = RT(:);                 % make sure it's a column vector 
 if nBand == 10 % octave
     f =  16000./(2.^(9:-1:0));
 elseif nBand == 31 % third octave
@@ -49,14 +49,18 @@ elseif nBand == 30 % third octave minus the highest band
 elseif  nBand < 10
     warning("Padding the RT values vector to match the number of bands")
     pads = (10 - nBand);
-    RT = padarray(RT, [floor(pads/2)], 'replicate', 'pre');
-    RT = padarray(RT, [floor(pads/2)+mod(pads,2)], 'replicate', 'post');
+    RT = [RT(1)*ones(floor(pads/2),1); RT];
+    RT = [RT; RT(end)*ones(floor(pads/2)+mod(pads,2),1)];
+%     RT = padarray(RT, [floor(pads/2)], 'replicate', 'pre');
+%     RT = padarray(RT, [floor(pads/2)+mod(pads,2)], 'replicate', 'post');
     f =  16000./(2.^(9:-1:0)); nBand = 10; 
 elseif nBand < 31
     warning("Padding the RT values vector to match the number of bands")
     pads = (31 - nBand);
-    RT = padarray(RT, [floor(pads/2)], 'replicate', 'pre');
-    RT = padarray(RT, [floor(pads/2)+mod(pads,2)], 'replicate', 'post');
+    RT = [RT(1)*ones(floor(pads/2),1); RT];
+    RT = [RT; RT(end)*ones(floor(pads/2)+mod(pads,2),1)];
+%     RT = padarray(RT, [floor(pads/2)], 'replicate', 'pre');
+%     RT = padarray(RT, [floor(pads/2)+mod(pads,2)], 'replicate', 'post');
     f =  10^3 * (2 .^ ([-17:13]/3)); nBand = 31; 
 else
     warning("Number of bands out of range")
