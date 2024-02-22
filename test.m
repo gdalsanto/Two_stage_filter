@@ -31,7 +31,7 @@ wc = 300;
 % get the frequency response of the attenuation filter
 SOS = zeros(N, 1, length(fBands)+3, 6);
 for i = 1:N
-    [HSHE, w, target_mag, h, iSOS] = twoFilters(RT, delays(i), fs, method, wc);
+    [HSHE, w, target_mag, h, iSOS, pads] = twoFilters(RT, delays(i), fs, method, wc);
     SOS(i, 1, :, :) = iSOS(1:end-1, :);
 end
 
