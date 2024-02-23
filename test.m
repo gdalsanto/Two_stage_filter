@@ -9,8 +9,8 @@ irLen = 3*fs;
 
 %% set up some parameters 
 
-fBands = [63, 125, 250, 500, 1000, 2000, 4000, 8000];
-% fBands = [63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1000, 1250, 1600, 2000, 2500, 3150, 4000, 5000, 6300, 8000];
+fBands = [63, 125, 250, 500, 1000, 2000, 4000, 8000];  % freqs for which I have RT values
+f =  16000./(2.^(9:-1:0));  % frequencies expected by TwoStage 
 
 delays = [997., 1153., 1327., 1559., 1801., 2099.];
 
@@ -22,6 +22,7 @@ est.T = double(T);  est.A = double(A); est.N = double(N); est.norm = double(norm
 est = transposeAllFields(est);
 [est.L, est.A, est.N] = decayFitNet2InitialLevel(est.T, est.A, est.N, est.norm, fs, irLen, fBands);
 RT = double(est.T); 
+RT = [RT(1)*ones(1), RT, RT(end)*ones(1)];
 
 N = length(delays);
 %% construct filters 
@@ -31,7 +32,7 @@ wc = 300;
 % get the frequency response of the attenuation filter
 SOS = zeros(N, 1, length(fBands)+3, 6);
 for i = 1:N
-    [HSHE, w, target_mag, h, iSOS, pads] = twoFilters(RT, delays(i), fs, method, wc);
+    [HSHE, w, target_mag, h, iSOS] = twoFilters(RT, delays(i), fs, method, wc);
     SOS(i, 1, :, :) = iSOS(1:end-1, :);
 end
 
