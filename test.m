@@ -5,8 +5,6 @@ addpath(genpath('data'), genpath('filters'), genpath('utility'))
 fs = 48000; 
 irLen = 3*fs; 
 
-
-
 %% set up some parameters 
 
 fBands = [63, 125, 250, 500, 1000, 2000, 4000, 8000];  % freqs for which I have RT values
