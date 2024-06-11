@@ -74,6 +74,7 @@ gLin_ = 10.^(target_mag./20);   % convert the full target frequency response int
 
 %% use only GEQ
 if contains(method, 'geq') || contains(method, 'GEQ') || contains(method, 'Geq')
+    SOS = [];
     Gdb_d = target_mag(ind);
     flag = 0; % do not use broadband gain
     Hshelf = ones(Nfreq,1); % do not use shelf filter
